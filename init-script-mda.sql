@@ -22,24 +22,6 @@ CREATE TABLE `customers` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --
--- Table structure for table `employees`
---
-
-DROP TABLE IF EXISTS `employees`;
-
-CREATE TABLE `employees` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `phone_number` varchar(45) DEFAULT NULL,
-  `street_adress` varchar(45) DEFAULT NULL,
-  `city` varchar(45) DEFAULT NULL,
-  `country` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
---
 -- Table structure for table `concerts`
 --
 
@@ -84,14 +66,16 @@ CREATE TABLE `users` (
   `customer_id` int(11) DEFAULT NULL,
   `employee_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`username`),
-  FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
-  FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`)
+  FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 
 INSERT INTO `users`(username, password, role, customer_id, employee_id) VALUE('admin','admin','ADM', null, null);
 
-INSERT INTO `concerts`(id, title, description, media, price) VALUE(1, "Metallica", "Concert with the greatest band, Metallica here in Ålesund!", "/media/metallica.jpg", 5);
+INSERT INTO `concerts`(id, title, description, media, price) VALUE(1, "Metallica", "Concert with the greatest band, Metallica here in Ålesund!", "/media/metallica.jpg", 500);
+INSERT INTO `concerts`(id, title, description, media, price) VALUE(2, "Aerosmith", "Concert with the greatest band, Aerosmith here in Ålesund!", "/media/aerosmith.jpg", 200);
+INSERT INTO `concerts`(id, title, description, media, price) VALUE(3, "Green Day", "Concert with the greatest band, Green Day here in Ålesund!", "/media/green-day.jpg", 300);
+INSERT INTO `concerts`(id, title, description, media, price) VALUE(4, "Sigrid", "Concert with the greatest band, Sgird here in Ålesund!", "/media/sigrid.jpg", 999);
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -26,10 +26,6 @@ public class MyUser{
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="employee_id")
-	private Employee employee;
-	
 	public MyUser() {}
 
 	public MyUser(String username, String password, String role) {
@@ -71,18 +67,11 @@ public class MyUser{
 		this.customer = customer;
 	}
 
-	public Employee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
 
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", role=" + role + ", customer=" + customer
-				+ ", employee=" + employee + "]";
+				+ "]";
 	}
 	
 	
