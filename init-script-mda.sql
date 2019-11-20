@@ -64,18 +64,25 @@ CREATE TABLE `users` (
   `password` varchar(45) NOT NULL,
   `role` varchar(45) NOT NULL, 
   `customer_id` int(11) DEFAULT NULL,
-  `employee_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`username`),
   FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `customers`(id, first_name, last_name, email, phone_number, street_adress, city, country) VALUE(1, 'Theodor','Urtegård','theo_u@hotmail.com', '97424218', null, null, null);
+
+INSERT INTO `orders`(id, nfc_data, valid, customer_id, concert_id) VALUE(1, null, true, 1, 1);
+INSERT INTO `orders`(id, nfc_data, valid, customer_id, concert_id) VALUE(2, null, true, 1, 2);
+INSERT INTO `orders`(id, nfc_data, valid, customer_id, concert_id) VALUE(3, null, true, 1, 3);
 
 
-INSERT INTO `users`(username, password, role, customer_id, employee_id) VALUE('admin','admin','ADM', null, null);
 
-INSERT INTO `concerts`(id, title, description, media, price) VALUE(1, "Metallica", "Concert with the greatest band, Metallica here in Ålesund!", "/media/metallica.jpg", 500);
+INSERT INTO `users`(username, password, role, customer_id) VALUE('admin','admin','ADM', null);
+INSERT INTO `users`(username, password, role, customer_id) VALUE('theodor','theodor','ADM', 1);
+
+
+INSERT INTO `concerts`(id, title, description, media, price) VALUE(1, "Metallica", "Concert with the greatest band, Metallica here in Ålesund!", "/media/metallica.jpeg", 500);
 INSERT INTO `concerts`(id, title, description, media, price) VALUE(2, "Aerosmith", "Concert with the greatest band, Aerosmith here in Ålesund!", "/media/aerosmith.jpg", 200);
-INSERT INTO `concerts`(id, title, description, media, price) VALUE(3, "Green Day", "Concert with the greatest band, Green Day here in Ålesund!", "/media/green-day.jpg", 300);
+INSERT INTO `concerts`(id, title, description, media, price) VALUE(3, "Green Day", "Concert with the greatest band, Green Day here in Ålesund!", "/media/green_day.jpg", 300);
 INSERT INTO `concerts`(id, title, description, media, price) VALUE(4, "Sigrid", "Concert with the greatest band, Sgird here in Ålesund!", "/media/sigrid.jpg", 999);
 
 SET FOREIGN_KEY_CHECKS = 1;

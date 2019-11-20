@@ -36,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.antMatchers("/api/concerts").permitAll()
 					.antMatchers("/api/createUser").permitAll()
 					.antMatchers("/api/concert/**").permitAll()
-					.antMatchers("/api/orders").permitAll() // TODO remove this
+					.antMatchers("/media/**").permitAll()
+					.antMatchers("/api/orders/**").permitAll() // TODO remove this
 					.anyRequest().authenticated()
 					.and().sessionManagement()
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

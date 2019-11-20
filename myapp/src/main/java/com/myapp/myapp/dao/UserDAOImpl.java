@@ -1,5 +1,6 @@
 package com.myapp.myapp.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,12 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.myapp.myapp.entity.Concert;
+import com.myapp.myapp.entity.Customer;
 import com.myapp.myapp.entity.MyUser;
+import com.myapp.myapp.entity.Order;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
 
 	private EntityManager em;
+	
+	@Autowired
+	private OrderDAO oDAO;
 	
 	@Autowired
 	public UserDAOImpl(EntityManager em) {
@@ -43,5 +50,29 @@ public class UserDAOImpl implements UserDAO {
 		
 		return user;
 	}
+
+	@Override
+	@Transactional
+	public List<Concert> getConcertsByUserId(String id) {
+		
+		System.out.println(id);
+		
+		MyUser user = getUserById(id);
+		Customer customer = user.getCustomer();
+		System.out.println(customer.toString());
+		List<Order> orders = oDAO.getOrdersByCustomerId(customer.getId()); 
+		System.out.println(orders.toString());
+		List<Concert> concerts = new ArrayList<>();
+		System.out.println(concerts.toString());
+		orders.forEach(order -> {
+			concerts.add(order.getConcert());
+		});
+		
+		
+		
+		return concerts;
+	}
+	
+	
 
 }

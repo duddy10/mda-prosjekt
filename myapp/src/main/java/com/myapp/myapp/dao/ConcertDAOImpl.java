@@ -1,8 +1,10 @@
 package com.myapp.myapp.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -18,6 +20,7 @@ public class ConcertDAOImpl implements ConcertDAO {
 	private EntityManager em;
 
 	@Override
+	@Transactional
 	public List<Concert> findAll() {
 		Session currentSession = em.unwrap(Session.class);
 		
@@ -29,6 +32,7 @@ public class ConcertDAOImpl implements ConcertDAO {
 	}
 
 	@Override
+	@Transactional
 	public Concert getConcertById(int id) {
 		Session currentSession = em.unwrap(Session.class);
 		
@@ -36,5 +40,7 @@ public class ConcertDAOImpl implements ConcertDAO {
 		
 		return concert;
 	}
+
+	
 
 }

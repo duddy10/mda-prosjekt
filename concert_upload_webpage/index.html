@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Concert management site</title>
+
+        <link rel="stylesheet" type="text/css" href="stylesheet.css">
+        <script src="script.js"></script>
+        
+    </head>
+    <body>
+        <div class="wrapper">
+
+            <div class="header">
+                Concert Management
+            </div>
+
+            <div class="body">
+                
+
+                <div id="loginView">
+                    <label>Username</label><br>
+                    <input type="text" id="loginUsername"/><br>
+        
+                    <label>Password</label><br>
+                    <input type="password" id="loginPassword"/><br>
+        
+                    <button onclick="onHandleLogin(this)">LOGIN</button>
+                    <button onclick="onHandleCreateUser(this)">Create user</button>
+                </div>
+
+                <div id="createUserView" style="display: none;">
+                        <label>Username</label><br>
+                        <input type="text" id="createUsername"/><br>
+            
+                        <label>Password</label><br>
+                        <input type="password" id="createPassword"/><br>
+            
+                        <button onclick="doCreateUser(this)">CREATE</button>
+                </div>
+
+                <div id="concertsView" style="display: none;">concertsView</div>
+
+                <div id="createConcertView" style="display: none;">
+                        <label>Title</label><br>
+                        <input type="text" id="createTitle"/><br>
+            
+                        <label>Description</label><br>
+                        <input type="text" id="createDescription"/><br>
+
+                        <label>Image</label><br>
+                        <input type="file" id="createImage"/><br>
+            
+                        <button onclick="doCreateConcert(this)">CREATE</button>
+                </div>
+                
+            </div>
+            
+        </div>
+    </body>
+</html>

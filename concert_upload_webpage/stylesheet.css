@@ -1,0 +1,16 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+.header{
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
