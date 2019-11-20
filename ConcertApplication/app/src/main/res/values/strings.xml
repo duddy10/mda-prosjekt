@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">ConcertApplication</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="concerts">Concerts</string>
+    <string name="login">LOGIN</string>
+    <string name="password">PASSWORD</string>
+    <string name="button">Button</string>
+    <string name="username">USERNAME</string>
+    <string name="buy">BUY</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="email">Email</string>
+    <string name="submit">SUBMIT</string>
+    <string name="token">com.example.concertapplication.token</string>
+    <string name="create_user">CREATE USER</string>
+    <string name="currentUserUsername">com.example.concertapplication.currentUserUsername</string>
+</resources>
