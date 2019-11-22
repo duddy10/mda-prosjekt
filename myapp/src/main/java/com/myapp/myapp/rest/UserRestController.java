@@ -42,7 +42,6 @@ public class UserRestController {
 			path= "/user/orders",
 			produces = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<JSONObject> getConcertsByCustomerId(
-			@RequestHeader(value="Accept") String acceptHeader,
 			@RequestHeader(value="Authorization") String authorizationHeader
 			) {
 		
@@ -72,14 +71,10 @@ public class UserRestController {
 			
 			
 			mainObject.put("concerts", jsonArray);
-		}
-		
-		
-	
-		
-		
-		
-		return ResponseEntity.status(HttpStatus.OK).body(mainObject);
-
+			return ResponseEntity.status(HttpStatus.OK).body(mainObject);
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}	
 	}
+	
 }
