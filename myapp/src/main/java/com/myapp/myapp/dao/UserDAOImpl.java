@@ -73,6 +73,18 @@ public class UserDAOImpl implements UserDAO {
 		return concerts;
 	}
 	
+	@Override
+	@Transactional
+	public void update(MyUser theUser) {
+		Session currentSession = em.unwrap(Session.class);
+		currentSession.update(theUser);
+	}
 	
+	@Override
+	@Transactional
+	public void save(MyUser theUser) {
+		Session currentSession = em.unwrap(Session.class);
+		currentSession.save(theUser);
+	}
 
 }

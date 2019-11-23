@@ -44,15 +44,11 @@ public class Customer {
 	
 	public Customer () {}
 
-	public Customer(String firstName, String lastName, String email, String phoneNumber, String streetAdress,
-			String city, String country) {
+	public Customer(String firstName, String lastName, String email, String phoneNumber) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.streetAdress = streetAdress;
-		this.city = city;
-		this.country = country;
 	}
 
 	public int getId() {

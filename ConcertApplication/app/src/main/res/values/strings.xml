@@ -20,4 +20,6 @@
     <string name="title_myUser">User</string>
     <string name="shop">Shop</string>
     <string name="receipt">Receipt</string>
+    <string name="update">UPDATE</string>
+    <string name="cancle">CANCLE</string>
 </resources>

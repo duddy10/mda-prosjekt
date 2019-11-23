@@ -11,16 +11,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.concertapplication.R;
+import com.example.concertapplication.singletons.MySingleton;
 import com.example.concertapplication.ui.currentUser.CurrentUserFragment;
 import com.example.concertapplication.ui.dashboard.DashboardFragment;
+import com.example.concertapplication.ui.recycleItem.RecycleItem;
+import com.example.concertapplication.ui.recycleItem.RecyclerAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Queue;
 
 public class MyUserFragment extends Fragment {
 
@@ -32,6 +49,17 @@ public class MyUserFragment extends Fragment {
     private String username;
     private TextView usernameView;
     private Button logoutButton;
+
+    private TextView firstName;
+    private TextView lastName;
+    private TextView phoneNumber;
+    private TextView email;
+    private TextView role;
+
+    private Button userCancle;
+    private Button userUpdate;
+
+    private RequestQueue myQueue;
 
 
     public static MyUserFragment newInstance() {
@@ -58,6 +86,20 @@ public class MyUserFragment extends Fragment {
         usernameView.setText(username);
         logoutButton = root.findViewById(R.id.logoutButton);
 
+        firstName = root.findViewById(R.id.userFirstName);
+        lastName = root.findViewById(R.id.userLastName);
+        phoneNumber = root.findViewById(R.id.userPhoneNumber);
+        email = root.findViewById(R.id.userEmail);
+        role = root.findViewById(R.id.userRole);
+
+        userUpdate = root.findViewById(R.id.userUpdate);
+        userCancle = root.findViewById(R.id.userCancle);
+
+        myQueue = MySingleton.getInstance(root.getContext()).getRequestQueue();
+
+        getUserInformation();
+
+
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,12 +108,24 @@ public class MyUserFragment extends Fragment {
                 editor.putString(getString(R.string.currentUserUsername), "");
                 editor.commit();
 
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                DashboardFragment dashboardFragment  = new DashboardFragment();
-                fragmentTransaction.replace(R.id.nav_host_fragment, dashboardFragment);
-                fragmentTransaction.commit();
+                loadLoginPage();
             }
         });
+
+        userUpdate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                updateUserInformation();
+            }
+        });
+
+        userCancle.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                getUserInformation();
+            }
+        });
+
 
 
 
@@ -88,8 +142,101 @@ public class MyUserFragment extends Fragment {
 
     private void loadLoginPage(){
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("fragmentId", "MyUserFragment");
         DashboardFragment dashboardFragment  = new DashboardFragment();
+        dashboardFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.nav_host_fragment, dashboardFragment);
         fragmentTransaction.commit();
+    }
+
+    private void getUserInformation(){
+        String url = "http://10.0.2.2:8080" + "/api/user/information";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            firstName.setText(response.getString("firstName"));
+                            lastName.setText(response.getString("lastName"));
+                            phoneNumber.setText(response.getString("phoneNumber"));
+                            email.setText(response.getString("email"));
+                            role.setText(response.getString("role"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + sharedPreferences.getString(getString(R.string.token), "").toString());
+                return headers;
+            }
+        };
+        myQueue.add(request);
+    }
+
+    private void updateUserInformation(){
+        String url = "http://10.0.2.2:8080" + "/api/user/update";
+
+        JSONObject jsonObject = new JSONObject();
+
+
+        // get user information to update
+        try {
+            jsonObject.put("firstName", firstName.getText());
+            jsonObject.put("lastName", lastName.getText());
+            jsonObject.put("phoneNumber", phoneNumber.getText());
+            jsonObject.put("email", email.getText());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            firstName.setText(response.getString("firstName"));
+                            lastName.setText(response.getString("lastName"));
+                            phoneNumber.setText(response.getString("phoneNumber"));
+                            email.setText(response.getString("email"));
+                            role.setText(response.getString("role"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + sharedPreferences.getString(getString(R.string.token), "").toString());
+                Log.d("MINTAG", headers.toString());
+                return headers;
+            }
+        };
+        myQueue.add(request);
     }
 }

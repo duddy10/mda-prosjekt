@@ -11,4 +11,9 @@ public interface UserDAO {
 	public MyUser getUserById(String id);
 	
 	public List<Concert> getConcertsByUserId(String id);
+
+	void update(MyUser theUser);
+
+	void save(MyUser theUser);
+
 }

@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.myapp.myapp.entity.Customer;
+import com.myapp.myapp.entity.MyUser;
 
 @Repository
 public class CustomerDAOImpl implements CustomerDAO {
@@ -32,6 +33,20 @@ public class CustomerDAOImpl implements CustomerDAO {
 		List<Customer> customers = query.getResultList();
 		
 		return customers;
+	}
+	
+	@Override
+	@Transactional
+	public void update(Customer customer) {
+		Session currentSession = em.unwrap(Session.class);
+		currentSession.update(customer);
+	}
+	
+	@Override
+	@Transactional
+	public void save(Customer customer) {
+		Session currentSession = em.unwrap(Session.class);
+		currentSession.save(customer);
 	}
 
 }

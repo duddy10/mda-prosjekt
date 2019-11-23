@@ -24,6 +24,7 @@ import com.example.concertapplication.R;
 import com.example.concertapplication.singletons.MySingleton;
 import com.example.concertapplication.ui.createUser.CreateUserFragment;
 import com.example.concertapplication.ui.currentUser.CurrentUserFragment;
+import com.example.concertapplication.ui.myUser.MyUserFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +37,8 @@ public class DashboardFragment extends Fragment {
     private RequestQueue myQueue;
     private Button loginButton;
     private Button createUserButton;
+
+    private Bundle bundle;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -59,6 +62,7 @@ public class DashboardFragment extends Fragment {
         usernameText = root.findViewById(R.id.usernameInput);
         passwordText = root.findViewById(R.id.passwordInput);
 
+        bundle = getArguments();
 
         createUserButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -133,8 +137,14 @@ public class DashboardFragment extends Fragment {
 
     private void loadLoggedInView(){
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        CurrentUserFragment currentUserFragment  = new CurrentUserFragment();
-        fragmentTransaction.replace(R.id.nav_host_fragment, currentUserFragment);
-        fragmentTransaction.commit();
+
+        if(bundle != null){
+            fragmentTransaction.replace(R.id.nav_host_fragment, new MyUserFragment());
+            fragmentTransaction.commit();
+        } else {
+            fragmentTransaction.replace(R.id.nav_host_fragment, new CurrentUserFragment());
+            fragmentTransaction.commit();
+        }
+
     }
 }
