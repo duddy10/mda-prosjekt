@@ -1,13 +1,9 @@
 package com.example.concertapplication.ui.usersConcert;
 
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -59,6 +55,14 @@ public class UsersConcertFragment extends Fragment implements OnMapReadyCallback
     private double lng;
     private String datetime;
 
+    private int orderId;
+
+    private UsersConcertFragmentListener usersConcertFragmentListener;
+
+    public interface UsersConcertFragmentListener{
+        void onInputUsersConcertFragmentSent(Integer input);
+    }
+
     public UsersConcertFragment() {
     }
 
@@ -69,7 +73,9 @@ public class UsersConcertFragment extends Fragment implements OnMapReadyCallback
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.users_concert_fragment, container, false);
+
 
         sharedPreferences = getContext().getSharedPreferences("com.example.concertapplication", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -84,6 +90,7 @@ public class UsersConcertFragment extends Fragment implements OnMapReadyCallback
         lat = bundle.getDouble("lat");
         lng = bundle.getDouble("lng");
         datetime = bundle.getString("datetime");
+        orderId = bundle.getInt("orderId");
 
 
 
@@ -102,8 +109,26 @@ public class UsersConcertFragment extends Fragment implements OnMapReadyCallback
 
         initGoogleMap(savedInstanceState);
 
+        usersConcertFragmentListener.onInputUsersConcertFragmentSent(orderId);
+
 
         return root;
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        if(context instanceof UsersConcertFragment.UsersConcertFragmentListener){
+            usersConcertFragmentListener = (UsersConcertFragment.UsersConcertFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement UsersConcertFragmentListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        usersConcertFragmentListener = null;
     }
 
     @Override

@@ -25,7 +25,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/userCancle"
         app:layout_constraintStart_toEndOf="@+id/userUpdate"
-        app:layout_constraintTop_toBottomOf="@+id/userRole" />
+        app:layout_constraintTop_toBottomOf="@+id/validateTicketButton" />
 
     <EditText
         android:id="@+id/userFirstName"
@@ -87,9 +87,9 @@
         android:id="@+id/userRole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userEmail" />
 
@@ -112,5 +112,15 @@
         android:text="@string/cancle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userRole" />
+
+    <Button
+        android:id="@+id/validateTicketButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/validate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/userRole"
+        app:layout_constraintTop_toBottomOf="@+id/userEmail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -86,7 +86,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void handleLogin(final String username, String password){
-        String url = "http://10.0.2.2:8080" + "/api/authenticate";
+        String url = "https://concert-backend-heroku.herokuapp.com" + "/api/authenticate";
 
         JSONObject jsonObject = new JSONObject();
 

@@ -240,7 +240,7 @@ public class ConcertFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void onHandleBuy(){
-        String url = "http://10.0.2.2:8080" + "/api/order/buy";
+        String url = "https://concert-backend-heroku.herokuapp.com" + "/api/order/buy";
 
         JSONObject jsonObject = null;
 

@@ -17,10 +17,12 @@
     <string name="token">com.example.concertapplication.token</string>
     <string name="create_user">CREATE USER</string>
     <string name="currentUserUsername">com.example.concertapplication.currentUserUsername</string>
+    <string name="currentUserRole">com.example.concertapplication.currentUserRole</string>
     <string name="title_myUser">User</string>
     <string name="shop">Shop</string>
     <string name="receipt">Receipt</string>
     <string name="update">UPDATE</string>
     <string name="cancle">CANCLE</string>
     <string name="title_activity_maps" translatable="false">Map</string>
+    <string name="validate">validate</string>
 </resources>

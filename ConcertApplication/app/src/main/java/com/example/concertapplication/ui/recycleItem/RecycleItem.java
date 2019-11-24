@@ -16,16 +16,18 @@ public class RecycleItem {
     private double lat;
     private double lng;
     private String timestamp;
+    private int orderId;
 
     public RecycleItem(int id, String imageResource, String text1, String text2, int price, double lat, double lng, String timestamp) {
         this.id = id;
-        this.imageResource = "http://10.0.2.2:8080" + imageResource;
+        this.imageResource = "https://concert-backend-heroku.herokuapp.com" + imageResource;
         this.text1 = text1;
         this.text2 = text2;
         this.price = price;
         this.lat = lat;
         this.lng = lng;
         this.timestamp = timestamp;
+        orderId = -1;
     }
 
     public String getText1() {
@@ -100,6 +102,14 @@ public class RecycleItem {
         this.timestamp = timestamp;
     }
 
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
     @Override
     public String toString() {
         return "RecycleItem{" +
@@ -111,7 +121,8 @@ public class RecycleItem {
                 ", price=" + price +
                 ", lat=" + lat +
                 ", lng=" + lng +
-                ", timestamp=" + timestamp +
+                ", timestamp='" + timestamp + '\'' +
+                ", orderId=" + orderId +
                 '}';
     }
 }

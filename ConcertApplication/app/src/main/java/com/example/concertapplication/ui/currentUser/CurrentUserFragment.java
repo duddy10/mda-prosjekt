@@ -95,7 +95,7 @@ public class CurrentUserFragment extends Fragment implements RecyclerAdapter.OnC
 
     // Function to get concerts and append them to myView
     private void jsonParse(final RecyclerAdapter.OnConcertListener onConcertListener){
-        String url = "http://10.0.2.2:8080" + "/api/user/orders";
+        String url = "https://concert-backend-heroku.herokuapp.com" + "/api/user/orders";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -115,8 +115,10 @@ public class CurrentUserFragment extends Fragment implements RecyclerAdapter.OnC
                                 double lng = concert.getDouble("lng");
                                 double lat = concert.getDouble("lat");
                                 String datetime = concert.getString("date");
+                                int orderId = concert.getInt("orderId");
 
                                 RecycleItem recycleItem = new RecycleItem(id, media, title, description, price, lat, lng, datetime);
+                                recycleItem.setOrderId(orderId);
                                 Log.d("item: ", recycleItem.toString());
                                 concertArray.add(recycleItem);
 
@@ -166,6 +168,7 @@ public class CurrentUserFragment extends Fragment implements RecyclerAdapter.OnC
             bundle.putDouble("lng", item.getLng());
             bundle.putDouble("lat", item.getLat());
             bundle.putString("datetime", item.getTimestamp().toString());
+            bundle.putInt("orderId", item.getOrderId());
 
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             UsersConcertFragment usersConcertFragment  = new UsersConcertFragment();

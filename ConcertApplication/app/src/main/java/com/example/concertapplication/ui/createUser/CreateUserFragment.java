@@ -86,7 +86,7 @@ public class CreateUserFragment extends Fragment {
     }
 
     private void handleCreateUser(){
-        String url = "http://10.0.2.2:8080" + "/api/user/create";
+        String url = "https://concert-backend-heroku.herokuapp.com" + "/api/user/create";
 
         JSONObject jsonObject = new JSONObject();
 

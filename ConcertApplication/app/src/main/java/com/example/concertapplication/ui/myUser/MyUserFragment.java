@@ -25,21 +25,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.concertapplication.R;
 import com.example.concertapplication.singletons.MySingleton;
-import com.example.concertapplication.ui.currentUser.CurrentUserFragment;
 import com.example.concertapplication.ui.dashboard.DashboardFragment;
-import com.example.concertapplication.ui.recycleItem.RecycleItem;
-import com.example.concertapplication.ui.recycleItem.RecyclerAdapter;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Queue;
 
-public class MyUserFragment extends Fragment {
+public class MyUserFragment extends Fragment{
 
     private MyUserViewModel mViewModel;
 
@@ -58,9 +52,15 @@ public class MyUserFragment extends Fragment {
 
     private Button userCancle;
     private Button userUpdate;
+    private Button validateTicketButton;
 
     private RequestQueue myQueue;
 
+    private MyUserFragmentListener myUserFragmentListener;
+
+    public interface MyUserFragmentListener{
+        void onInputMyUserFragmentSent(String input);
+    }
 
     public static MyUserFragment newInstance() {
         return new MyUserFragment();
@@ -69,6 +69,7 @@ public class MyUserFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
 
         final View root = inflater.inflate(R.layout.my_user_fragment, container, false);
 
@@ -94,6 +95,8 @@ public class MyUserFragment extends Fragment {
 
         userUpdate = root.findViewById(R.id.userUpdate);
         userCancle = root.findViewById(R.id.userCancle);
+
+        validateTicketButton = root.findViewById(R.id.validateTicketButton);
 
         myQueue = MySingleton.getInstance(root.getContext()).getRequestQueue();
 
@@ -126,11 +129,32 @@ public class MyUserFragment extends Fragment {
             }
         });
 
-
-
-
+        validateTicketButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                String instruction = "ADM";
+                myUserFragmentListener.onInputMyUserFragmentSent(instruction);
+            }
+        });
 
         return root;
+    }
+
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        if(context instanceof MyUserFragmentListener){
+            myUserFragmentListener = (MyUserFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement MyUserFragmentListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        myUserFragmentListener = null;
     }
 
     @Override
@@ -151,7 +175,7 @@ public class MyUserFragment extends Fragment {
     }
 
     private void getUserInformation(){
-        String url = "http://10.0.2.2:8080" + "/api/user/information";
+        String url = "https://concert-backend-heroku.herokuapp.com" + "/api/user/information";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -188,7 +212,7 @@ public class MyUserFragment extends Fragment {
     }
 
     private void updateUserInformation(){
-        String url = "http://10.0.2.2:8080" + "/api/user/update";
+        String url = "https://concert-backend-heroku.herokuapp.com" + "/api/user/update";
 
         JSONObject jsonObject = new JSONObject();
 
@@ -216,6 +240,12 @@ public class MyUserFragment extends Fragment {
                             phoneNumber.setText(response.getString("phoneNumber"));
                             email.setText(response.getString("email"));
                             role.setText(response.getString("role"));
+                            if( response.getString("role") =="ADM"){
+                                validateTicketButton.setVisibility(View.VISIBLE);
+
+                            } else {
+                                validateTicketButton.setVisibility(View.GONE);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
