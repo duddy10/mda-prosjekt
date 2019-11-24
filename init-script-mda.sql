@@ -1,3 +1,6 @@
+-- Theo is dum, I sit with problem all day. Because he updated the database but never gave me the new scrip
+
+
 CREATE SCHEMA  IF NOT EXISTS `myAppDB`;
 USE `myAppDB`;
 
