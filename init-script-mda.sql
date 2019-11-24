@@ -33,6 +33,9 @@ CREATE TABLE `concerts` (
   `description` varchar(512) DEFAULT NULL,
   `media` varchar(45) DEFAULT NULL,
   `price` int(12),
+   `lat` double,
+    `lng` double,
+     `date` datetime,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -80,9 +83,9 @@ INSERT INTO `users`(username, password, role, customer_id) VALUE('admin','admin'
 INSERT INTO `users`(username, password, role, customer_id) VALUE('theodor','theodor','ADM', 1);
 
 
-INSERT INTO `concerts`(id, title, description, media, price) VALUE(1, "Metallica", "Concert with the greatest band, Metallica here in Ålesund!", "/media/metallica.jpeg", 500);
-INSERT INTO `concerts`(id, title, description, media, price) VALUE(2, "Aerosmith", "Concert with the greatest band, Aerosmith here in Ålesund!", "/media/aerosmith.jpg", 200);
-INSERT INTO `concerts`(id, title, description, media, price) VALUE(3, "Green Day", "Concert with the greatest band, Green Day here in Ålesund!", "/media/green_day.jpg", 300);
-INSERT INTO `concerts`(id, title, description, media, price) VALUE(4, "Sigrid", "Concert with the greatest band, Sgird here in Ålesund!", "/media/sigrid.jpg", 999);
+INSERT INTO `concerts`(id, title, description, media, price, lat, lng, date) VALUE(1, "Metallica", "Concert with the greatest band, Metallica here in Ålesund!", "/media/metallica.jpeg", 500, 62.4722, 6.1495, "2020-01-01 18:00:00");
+INSERT INTO `concerts`(id, title, description, media, price, lat, lng, date) VALUE(2, "Aerosmith", "Concert with the greatest band, Aerosmith here in Ålesund!", "/media/aerosmith.jpg", 200, 62.4722, 6.1495, "2020-01-01 18:00:00");
+INSERT INTO `concerts`(id, title, description, media, price, lat, lng, date) VALUE(3, "Green Day", "Concert with the greatest band, Green Day here in Ålesund!", "/media/green_day.jpg", 300, 62.4722, 6.1495, "2020-01-01 18:00:00");
+INSERT INTO `concerts`(id, title, description, media, price, lat, lng, date) VALUE(4, "Sigrid", "Concert with the greatest band, Sgird here in Ålesund!", "/media/sigrid.jpg", 999, 62.4722, 6.1495, "2020-01-01 18:00:00");
 
 SET FOREIGN_KEY_CHECKS = 1;
