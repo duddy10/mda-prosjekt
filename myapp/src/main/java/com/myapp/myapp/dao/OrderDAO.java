@@ -13,4 +13,6 @@ public interface OrderDAO {
 
 	public List<Order> getOrdersByCustomerId(int customerId);
 
+	void save(Order order);
+
 }

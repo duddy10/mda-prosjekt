@@ -1,5 +1,7 @@
 package com.myapp.myapp.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,16 +30,34 @@ public class Concert {
 	@Column(name="price")
 	private int price;
 	
+	@Column(name="lat")
+	private double lat;
+	
+	@Column(name="lng")
+	private double lng;
+	
+	@Column(name="date")
+	private Timestamp datetime;
+	
+	
 	public Concert() {}
 
-	public Concert(int id, String title, String description, String media, int price) {
+	
+
+	public Concert(int id, String title, String description, String media, int price, double lat, double lng,
+			Timestamp datetime) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.media = media;
 		this.price = price;
+		this.lat = lat;
+		this.lng = lng;
+		this.datetime = datetime;
 	}
+
+
 
 	public int getId() {
 		return id;
@@ -77,6 +97,42 @@ public class Concert {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+
+
+	public double getLat() {
+		return lat;
+	}
+
+
+
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+
+
+	public double getLng() {
+		return lng;
+	}
+
+
+
+	public void setLng(double lng) {
+		this.lng = lng;
+	}
+
+
+
+	public Timestamp getDatetime() {
+		return datetime;
+	}
+
+
+
+	public void setDatetime(Timestamp datetime) {
+		this.datetime = datetime;
 	}
 	
 	

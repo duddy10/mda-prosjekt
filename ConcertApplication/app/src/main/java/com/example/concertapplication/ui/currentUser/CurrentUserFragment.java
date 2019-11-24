@@ -39,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -111,8 +112,11 @@ public class CurrentUserFragment extends Fragment implements RecyclerAdapter.OnC
                                 String description = concert.getString("description");
                                 String media = concert.getString("media");
                                 int price = concert.getInt("price");
+                                double lng = concert.getDouble("lng");
+                                double lat = concert.getDouble("lat");
+                                String datetime = concert.getString("date");
 
-                                RecycleItem recycleItem = new RecycleItem(id, media, title, description, price);
+                                RecycleItem recycleItem = new RecycleItem(id, media, title, description, price, lat, lng, datetime);
                                 Log.d("item: ", recycleItem.toString());
                                 concertArray.add(recycleItem);
 
@@ -159,6 +163,9 @@ public class CurrentUserFragment extends Fragment implements RecyclerAdapter.OnC
             bundle.putString("media", item.getImageResource());
             bundle.putString("description", item.getText2());
             bundle.putInt("price", item.getPrice());
+            bundle.putDouble("lng", item.getLng());
+            bundle.putDouble("lat", item.getLat());
+            bundle.putString("datetime", item.getTimestamp().toString());
 
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             UsersConcertFragment usersConcertFragment  = new UsersConcertFragment();

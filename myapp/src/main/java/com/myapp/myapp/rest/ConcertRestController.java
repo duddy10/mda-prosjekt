@@ -36,6 +36,9 @@ public class ConcertRestController {
 			jsonObject.put("description", concert.getDescription());
 			jsonObject.put("media", concert.getMedia());
 			jsonObject.put("price", concert.getPrice());
+			jsonObject.put("lng", concert.getLng());
+			jsonObject.put("lat", concert.getLat());
+			jsonObject.put("date", concert.getDatetime());
 			jsonArray.add(jsonObject);
 		} );
 		

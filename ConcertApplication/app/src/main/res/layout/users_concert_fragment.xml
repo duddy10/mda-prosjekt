@@ -13,6 +13,7 @@
         android:layout_marginTop="32dp"
         android:text="TITLE"
         android:textSize="24sp"
+        android:layout_weight="10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +26,9 @@
         android:src="@mipmap/ic_launcher"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usersConcertTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/usersConcertTitle"
+        android:layout_weight="40"
+        />
 
     <TextView
         android:id="@+id/usersConcertDescription"
@@ -37,5 +40,27 @@
         android:text="What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usersConcertImage" />
+        app:layout_constraintTop_toBottomOf="@+id/usersConcertImage"
+        android:layout_weight="20"
+        />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usersConcertDescription"
+        android:layout_weight="30"
+        >
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapsview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,4 +53,11 @@ public class OrderDAOImpl implements OrderDAO {
 		return orders;
 	}
 	
+	@Override
+	@Transactional
+	public void save(Order order) {
+		Session currentSession = em.unwrap(Session.class);
+		currentSession.save(order);
+	}
+	
 }

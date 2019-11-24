@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements RecyclerAdapter.OnConcertListener {
@@ -56,9 +57,6 @@ public class HomeFragment extends Fragment implements RecyclerAdapter.OnConcertL
         myQueue = MySingleton.getInstance(root.getContext()).getRequestQueue();
         jsonParse(this);
 
-        Log.d("concertArray content: ", concertArray.toString());
-
-
         return root;
     }
 
@@ -82,8 +80,11 @@ public class HomeFragment extends Fragment implements RecyclerAdapter.OnConcertL
                                 String description = concert.getString("description");
                                 String media = concert.getString("media");
                                 int price = concert.getInt("price");
+                                double lat = concert.getDouble("lat");
+                                double lng = concert.getDouble("lng");
+                                String timestamp = concert.getString("date");
 
-                                RecycleItem recycleItem = new RecycleItem(id, media, title, description, price);
+                                RecycleItem recycleItem = new RecycleItem(id, media, title, description, price, lat, lng, timestamp);
                                 Log.d("item: ", recycleItem.toString());
                                 concertArray.add(recycleItem);
 
@@ -118,6 +119,9 @@ public class HomeFragment extends Fragment implements RecyclerAdapter.OnConcertL
             bundle.putString("media", item.getImageResource());
             bundle.putString("description", item.getText2());
             bundle.putInt("price", item.getPrice());
+            bundle.putDouble("lat", item.getLat());
+            bundle.putDouble("lng", item.getLng());
+            bundle.putString("date", item.getTimestamp());
 
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 

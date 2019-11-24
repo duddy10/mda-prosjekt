@@ -50,4 +50,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/concertDescription" />
+
+    <RelativeLayout
+        android:id="@+id/buyConcertMap"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="32dp"
+        android:layout_weight="30"
+        app:layout_constraintTop_toBottomOf="@+id/buyButton"
+        tools:layout_editor_absoluteX="-16dp">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapsview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
