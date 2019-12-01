@@ -25,6 +25,7 @@ import com.example.concertapplication.ui.myUser.MyUserFragment;
 import com.example.concertapplication.ui.usersConcert.UsersConcertFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -68,11 +69,22 @@ public class MainActivity extends AppCompatActivity implements MyUserFragment.My
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
 
+
+        // ------------- NFC -------------
+
+        //Check if NFC is available on device
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if(nfcAdapter != null) {
+            Toast.makeText(this, "NFC available on this device", Toast.LENGTH_LONG).show();
+            //This will refer back to createNdefMessage for what it will send
+            nfcAdapter.setNdefPushMessageCallback(this, this);
 
-        messagesToSendArray = new ArrayList<>();
+            //This will be called if the message is sent successfully
+            nfcAdapter.setOnNdefPushCompleteCallback(this, this);
+        }
 
-        sharedPreferences = getSharedPreferences("com.example.concertapplication", Context.MODE_PRIVATE);
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("com.example.concertapplication", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         myQueue = MySingleton.getInstance(this).getRequestQueue();
 
@@ -80,22 +92,38 @@ public class MainActivity extends AppCompatActivity implements MyUserFragment.My
         myUserFragment = new MyUserFragment();
         usersConcertFragment = new UsersConcertFragment();
 
-
     }
 
+    // ------------- NFC -------------
+
+    //Save our Array Lists of Messages for if the user navigates away
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putStringArrayList("messagesToSend", messagesToSendArray);
+        savedInstanceState.putStringArrayList("lastMessagesReceived",messagesReceivedArray);
+    }
+
+    //Load our Array Lists of Messages for when the user navigates back
+    @Override
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        messagesToSendArray = savedInstanceState.getStringArrayList("messagesToSend");
+        messagesReceivedArray = savedInstanceState.getStringArrayList("lastMessagesReceived");
+    }
+
+    // Gets information from MyUserFragment
     @Override
     public void onInputMyUserFragmentSent(String input) {
             nfcInstructions = input;
-            Log.d("onInputMyUserFragmentSe", input);
-            handleNfcIntent(getIntent());
     }
 
+    // Gets information from UsersConcertFragment
     @Override
     public void onInputUsersConcertFragmentSent(Integer input) {
         ticketId = input;
-        Log.d("onInputUsersConcert", input + "");
         messagesToSendArray.add(ticketId + "");
-        handleNfcIntent(getIntent());
+
     }
 
 
@@ -103,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements MyUserFragment.My
     public void onResume(){
         super.onResume();
         // TODO updateTextViews();
-        handleNfcIntent(getIntent());
     }
 
     @Override
@@ -156,7 +183,8 @@ public class MainActivity extends AppCompatActivity implements MyUserFragment.My
                 records[i] = record;
             }
         }
-        // records[messagesToSendArray.size()] = NdefRecord.createApplicationRecord(getPackageName());
+        records[messagesToSendArray.size()] =
+                NdefRecord.createApplicationRecord(getPackageName());
         return records;
     }
 
@@ -166,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements MyUserFragment.My
                     NfcIntent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 
             if(receivedArray != null) {
+                Log.d("MYKEYWORD","IN SECOND IF");
                 messagesReceivedArray.clear();
                 NdefMessage receivedMessage = (NdefMessage) receivedArray[0];
                 NdefRecord[] attachedRecords = receivedMessage.getRecords();
@@ -176,11 +205,8 @@ public class MainActivity extends AppCompatActivity implements MyUserFragment.My
                     if (string.equals(getPackageName())) { continue; }
                     messagesReceivedArray.add(string);
                 }
-
-                Toast.makeText(getApplicationContext(), messagesReceivedArray.toString(), Toast.LENGTH_LONG);
-
-                // check ticket id
-                // etTicketStatusAndNfc();
+                Log.d("MYKEYWORD", messagesReceivedArray.toString());
+                getTicketStatusAndNfc(Integer.parseInt(messagesReceivedArray.get(0)));
             }
             else {
                 Toast.makeText(this, "Received Blank Parcel", Toast.LENGTH_LONG).show();
@@ -196,29 +222,30 @@ public class MainActivity extends AppCompatActivity implements MyUserFragment.My
     }
 
     // TODO Get NFC unique key
+    //
+    //    // TODO check NFC unique key
 
-    // TODO check NFC unique key
-
-    private void getTicketStatusAndNfc(){
+    private void getTicketStatusAndNfc(int idToValidate){
         String url = "https://concert-backend-heroku.herokuapp.com" + "/api/order/validate";
 
-        final JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put("id", ticketId);
+            jsonObject.put("orderId", idToValidate);
+            Log.d("MYKEYWORD", jsonObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, jsonObject,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            if(jsonObject.getBoolean("valid")){
-                                Toast.makeText(getApplicationContext(), "TICKET VALID!", Toast.LENGTH_LONG);
+                            if(response.getBoolean("valid")){
+                                Log.d("MYKEYWORD", "VALID");
                             } else {
-                                Toast.makeText(getApplicationContext(), "TICKET VALID!", Toast.LENGTH_LONG);
+                                Log.d("MYKEYWORD", "INVALID");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -233,8 +260,10 @@ public class MainActivity extends AppCompatActivity implements MyUserFragment.My
             @Override
             public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + sharedPreferences.getString(getString(R.string.token), ""));
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "Bearer " + sharedPreferences.getString(getString(R.string.token), "").toString());
+                Log.d("MYKEYWORD", headers.toString());
+
                 return headers;
             }
         };

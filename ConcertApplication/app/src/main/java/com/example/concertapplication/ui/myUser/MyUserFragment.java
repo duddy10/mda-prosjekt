@@ -204,7 +204,7 @@ public class MyUserFragment extends Fragment{
             public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "Bearer " + sharedPreferences.getString(getString(R.string.token), "").toString());
+                headers.put("Authorization", "Bearer " + sharedPreferences.getString(getString(R.string.token), ""));
                 return headers;
             }
         };
